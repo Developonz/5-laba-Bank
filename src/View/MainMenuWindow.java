@@ -11,7 +11,8 @@ public class MainMenuWindow extends Window{
     private JButton exitButton;
     private JPanel panel;
 
-    public MainMenuWindow(String str) {
+
+    public MainMenuWindow(String bank) {
         setTitle("Главное меню");
 
         autoriz = new JButton("Авторизация");
@@ -22,6 +23,14 @@ public class MainMenuWindow extends Window{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ChoseBankWindow();
+                setVisible(false);
+            }
+        });
+
+        register.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new RegisterWindow(bank);
                 setVisible(false);
             }
         });

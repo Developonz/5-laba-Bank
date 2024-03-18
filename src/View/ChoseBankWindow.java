@@ -15,13 +15,13 @@ public class ChoseBankWindow extends Window {
     public ChoseBankWindow() {
         setTitle("Банк");
 
-        alfa = new JButton("Альфа");
+        alfa = new JButton("Alfa");
         alfa.addActionListener(new MyListener(alfa.getText()));
 
-        tink = new JButton("Тинькофф");
+        tink = new JButton("Tinkoff");
         tink.addActionListener(new MyListener(tink.getText()));
 
-        sber = new JButton("Сбер");
+        sber = new JButton("Sber");
         sber.addActionListener(new MyListener(sber.getText()));
 
         exitButton = new JButton("Выход");
