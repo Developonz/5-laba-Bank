@@ -1,7 +1,7 @@
 package Data.BankAccs;
 
 import Data.Client;
-
+import Exceptions.MyException;
 import java.util.ArrayList;
 
 public class DebitAcc extends BankAccount {
@@ -21,26 +21,20 @@ public class DebitAcc extends BankAccount {
             }
         }
         String title = c == 0 ? "Дебетовый счёт" : "Дебетовый счёт" + " " + ++g;
-        this.renameTitle(title);
+        this.setTitle(title);
     }
-//
-//    @Override
-//    public void transactMoney(BankAccount account) throws MyExeption.MoneyException {
-//        double money = Input.inpNumber();
-//        if (this.getMoney() >= money && this.getMoney() != 0) {
-//            if (money <= this.getMoney()) {
-//                account.changeMoney(money);
-//                if (this.getBank() != account.getBank()) {
-//                    money *= 1 + this.getBank().getComission();
-//                }
-//                this.changeMoney(-money);
-//                System.out.println("Перевод успешно совершён.");
-//            } else {
-//                System.out.println("На вашем счёте недостаточно средств.");
-//                transactMoney(account);
-//            }
-//        } else {
-//            throw new MyExeption.MoneyException("На этом счёте недостаточно средств!!!");
-//        }
-//    }
+
+    @Override
+    public void transactMoney(BankAccount account, double money) throws MyException {
+        if (money > 0) {
+            if (this.getMoney() >= money && this.getMoney() != 0) {
+                account.topUpAcc(money);
+                this.topDownAcc(money);
+            } else {
+                throw new MyException("На этом счёте недостаточно средств!!!");
+            }
+        } else {
+            throw new MyException("Сумма должна быть больше 0.");
+        }
+    }
 }

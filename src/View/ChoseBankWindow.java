@@ -37,6 +37,9 @@ public class ChoseBankWindow extends Window {
             }
         });
 
+        alfa.setPreferredSize(tink.getPreferredSize());
+        sber.setPreferredSize(tink.getPreferredSize());
+
         panel = new JPanel();
         panel.add(alfa);
         panel.add(tink);

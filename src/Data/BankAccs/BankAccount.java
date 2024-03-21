@@ -2,13 +2,11 @@ package Data.BankAccs;
 
 
 import Data.Client;
-
 import java.io.Serializable;
-import java.util.Scanner;
+import Exceptions.MyException;
 
 public abstract class BankAccount implements Serializable {
     private double money;
-    private long id;
     private String title;
     private Client owner;
     private String bank;
@@ -17,43 +15,44 @@ public abstract class BankAccount implements Serializable {
         this.owner = client;
         money = 0;
         this.bank = client.getBank();
-        this.id = this.getOwner().getAccs().size() + 1;
     }
-//
-//    public abstract void transactMoney(BankAccount account) throws MyExeption.MoneyException;
-//
-//    public void topUpAcc() {
-//        double money = Input.inpNum();
-//        if (money % 50 == 0) {
-//            this.money += money;
-//        } else {
-//            System.out.println("Введите сумму кратную 50");
-//            topUpAcc();
-//        }
-//    }
-//
-//    public void topDownAcc() {
-//        if (this.money >= 50) {
-//            double money = Input.inpNum();
-//            if (money % 50 == 0) {
-//                this.money -= money;
-//            } else {
-//                System.out.println("Введите сумму кратную 50");
-//                topDownAcc();
-//            }
-//        } else {
-//            System.out.println("Недосаточно средств");
-//        }
-//    }
-//
-    public void renameTitle(String title) {
+
+    public abstract void transactMoney(BankAccount account, double money) throws MyException;
+
+    public void topUpAcc(double money) throws MyException {
+        if (money > 0) {
+            this.money += money;
+        } else {
+            throw new MyException("Сумма должна быть больше 0.");
+        }
+    }
+
+    public void topDownAcc(double money) throws MyException {
+        if (money > 0) {
+            if (this instanceof CreditAcc) {
+                if (this.money - money >= -10000) {
+                    this.money -= money;
+                } else {
+                    throw new MyException("У вас недостаточно средств");
+                }
+            } else {
+                if (this.money >= money) {
+                    this.money -= money;
+                } else {
+                    throw new MyException("У вас недостаточно средств");
+                }
+            }
+        } else {
+            throw new MyException("Сумма должна быть больше 0.");
+        }
+    }
+
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public void renameTitle() {
+    public void renameTitle(String title) throws MyException {
         boolean coincid = false;
-        System.out.print("Введите название: ");
-        String title = new Scanner(System.in).nextLine();
         for (BankAccount acc : owner.getAccs()) {
             if (acc.getTitle().equals(title) && acc != this) {
                 coincid = true;
@@ -61,27 +60,19 @@ public abstract class BankAccount implements Serializable {
             }
         }
         if (coincid) {
-            System.out.println("Счёт с таким названием уже есть.");
-            renameTitle();
+            throw new MyException("У вас уже есть счёт с таким названием");
         } else {
             this.title = title;
-            System.out.println("Название успешно сохранено.");
         }
     }
-//
-//    public void removeAccount() throws MyExeption.RemoveException {
-//        if (this.getOwner().getAccs().size() == 1 && this.getMoney() != 0) {
-//            throw new MyExeption.RemoveException("Вы не можете закрыть счёт, так как на этом счёте лежат средства.");
-//        }
-//        bank.getAccountsBank().remove(this);
-//        owner.getAccs().remove(this);
-//        System.out.println("Счёт успешно удалён.");
-//    }
-//
-//    public void changeMoney(double money) {
-//        this.money += money;
-//    }
-//
+
+    public void removeAccount() throws MyException {
+        if (this.getMoney() != 0) {
+            throw new MyException("Вы не можете закрыть счёт");
+        }
+        owner.getAccs().remove(this);
+    }
+
     public String getBank() {
         return this.bank;
     }
@@ -96,9 +87,5 @@ public abstract class BankAccount implements Serializable {
 
     public Client getOwner() {
         return owner;
-    }
-
-    public long getId() {
-        return this.id;
     }
 }

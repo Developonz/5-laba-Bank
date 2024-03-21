@@ -34,30 +34,9 @@ public class Client implements Serializable {
         this.accountsClient.add(account);
     }
 
-    public void printAccs() {
-        System.out.println("Ваши счета:");
-        int i = 1;
-        for (BankAccount acc : accountsClient) {
-            System.out.println((i++) + ". id: " + acc.getId() + " title: " + acc.getTitle() + "\n   Сумма: " + acc.getMoney());
-        }
-    }
 
-//    private static String genRandPhone() {
-//        Random random = new Random();
-//        StringBuilder phoneNumberBuilder = new StringBuilder("8");
-//        for (int i = 0; i < 10; i++) {
-//            int digit = random.nextInt(10);
-//            phoneNumberBuilder.append(digit);
-//        }
-//        return phoneNumberBuilder.toString();
-//    }
-//
-//    public String getData() {
-//        return this.firstName + " " + this.surName + " id: " + id + " phone: " + phone;
-//    }
-//
     public String getData(boolean e) {
-        return this.firstName + " " + this.surName;
+        return this.surName + " " + this.firstName;
     }
 
     public String getBank() {
@@ -66,5 +45,16 @@ public class Client implements Serializable {
 
     public ArrayList<BankAccount> getAccs() {
         return accountsClient;
+    }
+
+    public long getId() { return this.id; }
+
+    public BankAccount getAccInTitle(String title) {
+        for (int i = 0; i < this.getAccs().size(); ++i) {
+            if (this.getAccs().get(i).getTitle().equals(title)) {
+                return this.getAccs().get(i);
+            }
+        }
+        return null;
     }
 }

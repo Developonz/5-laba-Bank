@@ -35,6 +35,14 @@ public class MainMenuWindow extends Window{
             }
         });
 
+        autoriz.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AutorizWindow(bank);
+                setVisible(false);
+            }
+        });
+
         panel = new JPanel();
         panel.add(autoriz);
         panel.add(register);
