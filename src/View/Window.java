@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Window extends JFrame {
+public abstract class Window extends JFrame {
     private JFrame frame = this;
     public Window() {
         addWindowListener(new WindowAdapter() {

@@ -1,15 +1,11 @@
 package View;
 
 
-import Data.Client;
 import DataTransmission.MyIOFile;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 
 public class RegisterWindow extends Window{
@@ -26,7 +22,6 @@ public class RegisterWindow extends Window{
     private JTextField surnameField;
     private JButton register;
     private JButton exitButton;
-    private String filePath;
 
     public RegisterWindow(String bank) {
         setTitle("Регистрация");
@@ -51,7 +46,7 @@ public class RegisterWindow extends Window{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ProfileWindow(MyIOFile.clientSerialization(nameField.getText(), surnameField.getText(), bank, (String) typesAccs.getSelectedItem()));
-                setVisible(false);
+                dispose();
             }
         });
 
@@ -59,7 +54,7 @@ public class RegisterWindow extends Window{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new MainMenuWindow(bank);
-                setVisible(false);
+                dispose();
             }
         });
 

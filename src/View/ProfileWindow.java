@@ -24,7 +24,7 @@ public class ProfileWindow extends Window {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
+                dispose();
                 new MainMenuWindow(client.getBank());
             }
         });
@@ -33,7 +33,7 @@ public class ProfileWindow extends Window {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AddAccWindow(client);
-                setVisible(false);
+                dispose();
             }
         });
 
@@ -41,7 +41,7 @@ public class ProfileWindow extends Window {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ChoseAccWindow(client);
-                setVisible(false);
+                dispose();
             }
         });
 

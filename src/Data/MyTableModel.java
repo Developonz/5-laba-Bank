@@ -13,7 +13,7 @@ public class MyTableModel extends AbstractTableModel {
     private int colCount;
     private ArrayList<Client> clients;
 
-    public MyTableModel(Repository repo) {
+    public MyTableModel(ClientsRepository repo) {
         this.clients = repo.getClients();
         this.rowCount = repo.getCount();
         this.colCount = 3;
@@ -33,7 +33,7 @@ public class MyTableModel extends AbstractTableModel {
         this.rowCount -= empty;
     }
 
-    public MyTableModel(Repository[] repo, BankAccount acc) {
+    public MyTableModel(ClientsRepository[] repo, BankAccount acc) {
         String[] str = acc.getOwner().getData(true).split(" ");
         Object[] surplus = {acc.getOwner().getBank(), acc.getOwner().getId(), str[0], str[1], acc.getTitle(), acc.getMoney()};
         clients = new ArrayList<Client>();

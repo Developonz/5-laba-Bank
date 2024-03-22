@@ -1,7 +1,7 @@
 package Data.BankAccs;
 
 import Data.Client;
-import Exceptions.MyException;
+import Exceptions.ErrorMoneyException;
 import java.util.ArrayList;
 
 public class DebitAcc extends BankAccount {
@@ -25,16 +25,16 @@ public class DebitAcc extends BankAccount {
     }
 
     @Override
-    public void transactMoney(BankAccount account, double money) throws MyException {
+    public void transactMoney(BankAccount account, double money) throws ErrorMoneyException {
         if (money > 0) {
             if (this.getMoney() >= money && this.getMoney() != 0) {
                 account.topUpAcc(money);
                 this.topDownAcc(money);
             } else {
-                throw new MyException("На этом счёте недостаточно средств!!!");
+                throw new ErrorMoneyException("На этом счёте недостаточно средств!!!");
             }
         } else {
-            throw new MyException("Сумма должна быть больше 0.");
+            throw new ErrorMoneyException("Сумма должна быть больше 0.");
         }
     }
 }

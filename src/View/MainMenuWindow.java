@@ -23,7 +23,7 @@ public class MainMenuWindow extends Window{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ChoseBankWindow();
-                setVisible(false);
+                dispose();
             }
         });
 
@@ -31,7 +31,7 @@ public class MainMenuWindow extends Window{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new RegisterWindow(bank);
-                setVisible(false);
+                dispose();
             }
         });
 
@@ -39,7 +39,7 @@ public class MainMenuWindow extends Window{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AutorizWindow(bank);
-                setVisible(false);
+                dispose();
             }
         });
 

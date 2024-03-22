@@ -10,25 +10,30 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ChoseAccWindow  extends Window {
+    private JLabel label;
+    private JPanel panel;
+    private JButton exitButton;
+    private ArrayList<BankAccount> list;
+    private JButton[] buttons;
 
     public ChoseAccWindow(Client client) {
         setTitle("Счета");
-        JLabel label = new JLabel("Выберите счёт");
+        label = new JLabel("Выберите счёт");
         label.setHorizontalAlignment(SwingConstants.CENTER);
-        JPanel panel = new JPanel(new GridLayout(0, 1));
 
-        JButton exitButton = new JButton("Назад");
+        panel = new JPanel(new GridLayout(0, 1));
+        exitButton = new JButton("Назад");
 
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ProfileWindow(client);
-                setVisible(false);
+                dispose();
             }
         });
 
-        ArrayList<BankAccount> list = client.getAccs();
-        JButton[] buttons = new JButton[list.size()];
+        list = client.getAccs();
+        buttons = new JButton[list.size()];
 
         for (int i = 0; i < list.size(); ++i) {
             buttons[i] = new JButton(list.get(i).getTitle());
@@ -38,7 +43,7 @@ public class ChoseAccWindow  extends Window {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     new ActionsWindow(acc);
-                    setVisible(false);
+                    dispose();
                 }
             });
         }

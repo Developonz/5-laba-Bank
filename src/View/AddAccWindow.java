@@ -4,7 +4,7 @@ import Data.BankAccs.CreditAcc;
 import Data.BankAccs.DebitAcc;
 import Data.BankAccs.DepositAcc;
 import Data.Client;
-import Data.Repository;
+import Data.ClientsRepository;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,22 +17,20 @@ public class AddAccWindow extends Window {
     private JButton deposit;
     private JButton exitButton;
     private JPanel panel;
-
     
     public AddAccWindow(Client client) {
         setTitle("Создание счёта");
-        JLabel label = new JLabel("Выберите тип счёта");
 
         debit = new JButton("Дебетовый");
         debit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Repository repo = new Repository(client.getBank());
+                ClientsRepository repo = new ClientsRepository(client.getBank());
                 client.addAccount(new DebitAcc(client));
                 repo.update(client);
                 JOptionPane.showMessageDialog(getContentPane(), "Успешно добавлено", "Уведомление", JOptionPane.INFORMATION_MESSAGE);
                 new ProfileWindow(client);
-                setVisible(false);
+                dispose();
             }
         });
 
@@ -40,12 +38,12 @@ public class AddAccWindow extends Window {
         credit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Repository repo = new Repository(client.getBank());
+                ClientsRepository repo = new ClientsRepository(client.getBank());
                 client.addAccount(new CreditAcc(client));
                 repo.update(client);
                 JOptionPane.showMessageDialog(getContentPane(), "Успешно добавлено", "Уведомление", JOptionPane.INFORMATION_MESSAGE);
                 new ProfileWindow(client);
-                setVisible(false);
+                dispose();
             }
         });
 
@@ -53,12 +51,12 @@ public class AddAccWindow extends Window {
         deposit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Repository repo = new Repository(client.getBank());
+                ClientsRepository repo = new ClientsRepository(client.getBank());
                 client.addAccount(new DepositAcc(client));
                 repo.update(client);
                 JOptionPane.showMessageDialog(getContentPane(), "Успешно добавлено", "Уведомление", JOptionPane.INFORMATION_MESSAGE);
                 new ProfileWindow(client);
-                setVisible(false);
+                dispose();
             }
         });
 
@@ -67,7 +65,7 @@ public class AddAccWindow extends Window {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ProfileWindow(client);
-                setVisible(false);
+                dispose();
             }
         });
 

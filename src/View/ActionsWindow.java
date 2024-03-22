@@ -2,8 +2,8 @@ package View;
 
 import Data.BankAccs.BankAccount;
 import Data.Client;
-import Data.Repository;
-import Exceptions.MyException;
+import Data.ClientsRepository;
+import Exceptions.ErrorMoneyException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +18,7 @@ public class ActionsWindow extends Window {
     private JButton accRemove;
     private JButton exitButton;
     private JPanel mainPanel;
+    private JLabel label;
 
     public ActionsWindow(BankAccount acc) {
         setTitle("Действия");
@@ -28,12 +29,13 @@ public class ActionsWindow extends Window {
         accRename = new JButton("Переименовать счёт");
         accRemove = new JButton("Удалить счёт");
         exitButton = new JButton("Назад");
-        JLabel label = new JLabel(acc.getTitle() + ": " + acc.getMoney() + " руб");
+        label = new JLabel(acc.getTitle() + ": " + acc.getMoney() + " руб");
+
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ProfileWindow(acc.getOwner());
-                setVisible(false);
+                dispose();
             }
         });
 
@@ -47,11 +49,11 @@ public class ActionsWindow extends Window {
                         try {
                             money = Double.parseDouble(result);
                             acc.topDownAcc(money);
-                            Repository repo = new Repository(acc.getBank());
+                            ClientsRepository repo = new ClientsRepository(acc.getBank());
                             repo.update(acc.getOwner());
                             label.setText(acc.getTitle() + ": " + acc.getMoney() + " руб");
                             JOptionPane.showMessageDialog(getContentPane(), "Сумма успешно снята", "Уведомление", JOptionPane.INFORMATION_MESSAGE);
-                        } catch (MyException ex) {
+                        } catch (ErrorMoneyException ex) {
                             JOptionPane.showMessageDialog(getContentPane(), ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
                         }
                     } catch (NumberFormatException ex) {
@@ -69,13 +71,13 @@ public class ActionsWindow extends Window {
                     try {
                         double money = Double.parseDouble(result);
                         acc.topUpAcc(money);
-                        Repository repo = new Repository(acc.getBank());
+                        ClientsRepository repo = new ClientsRepository(acc.getBank());
                         repo.update(acc.getOwner());
                         label.setText(acc.getTitle() + ": " + acc.getMoney() + " руб");
                         JOptionPane.showMessageDialog(getContentPane(), "Счёт успешно пополнен", "Уведомление", JOptionPane.INFORMATION_MESSAGE);
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(getContentPane(), "Некорректный ввод числа", "Ошибка", JOptionPane.ERROR_MESSAGE);
-                    } catch (MyException ex) {
+                    } catch (ErrorMoneyException ex) {
                         JOptionPane.showMessageDialog(getContentPane(), ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
                     }
                 }
@@ -89,11 +91,11 @@ public class ActionsWindow extends Window {
                 if (result != null && !result.isEmpty()) {
                     try {
                         acc.renameTitle(result);
-                        Repository repo = new Repository(acc.getBank());
+                        ClientsRepository repo = new ClientsRepository(acc.getBank());
                         repo.update(acc.getOwner());
                         label.setText(acc.getTitle() + ": " + acc.getMoney() + " руб");
                         JOptionPane.showMessageDialog(getContentPane(), "Счёт успешно переименован", "Уведомление", JOptionPane.INFORMATION_MESSAGE);
-                    } catch (MyException ex) {
+                    } catch (ErrorMoneyException ex) {
                         JOptionPane.showMessageDialog(getContentPane(), ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
                     }
                 }
@@ -103,19 +105,19 @@ public class ActionsWindow extends Window {
         accRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Repository repo = new Repository(acc.getBank());
+                ClientsRepository repo = new ClientsRepository(acc.getBank());
                 if (acc.getOwner().getAccs().size() == 1) {
                     repo.removeClient(acc.getOwner());
                     new MainMenuWindow(acc.getBank());
-                    setVisible(false);
+                    dispose();
                 } else {
                     Client client = acc.getOwner();
                     try {
                         acc.removeAccount();
                         repo.update(client);
                         new ProfileWindow(client);
-                        setVisible(false);
-                    } catch (MyException ex) {
+                        dispose();
+                    } catch (ErrorMoneyException ex) {
                         JOptionPane.showMessageDialog(getContentPane(), ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
                     }
                 }
@@ -126,7 +128,7 @@ public class ActionsWindow extends Window {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new TransferMoneyWindow(acc);
-                setVisible(false);
+                dispose();
             }
         });
 

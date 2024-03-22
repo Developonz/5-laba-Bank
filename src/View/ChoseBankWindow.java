@@ -6,23 +6,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ChoseBankWindow extends Window {
-    private JButton alfa;
-    private JButton tink;
-    private JButton sber;
+    private JButton alfaBut;
+    private JButton tinkBut;
+    private JButton sberBut;
     private JButton exitButton;
     private JPanel panel;
 
     public ChoseBankWindow() {
         setTitle("Банк");
 
-        alfa = new JButton("Alfa");
-        alfa.addActionListener(new MyListener(alfa.getText()));
+        alfaBut = new JButton("alfa");
+        alfaBut.addActionListener(new MyListener(alfaBut.getText()));
 
-        tink = new JButton("Tinkoff");
-        tink.addActionListener(new MyListener(tink.getText()));
+        tinkBut = new JButton("tinkoff");
+        tinkBut.addActionListener(new MyListener(tinkBut.getText()));
 
-        sber = new JButton("Sber");
-        sber.addActionListener(new MyListener(sber.getText()));
+        sberBut = new JButton("sber");
+        sberBut.addActionListener(new MyListener(sberBut.getText()));
 
         exitButton = new JButton("Выход");
         exitButton.addActionListener(new ActionListener() {
@@ -37,13 +37,13 @@ public class ChoseBankWindow extends Window {
             }
         });
 
-        alfa.setPreferredSize(tink.getPreferredSize());
-        sber.setPreferredSize(tink.getPreferredSize());
+        alfaBut.setPreferredSize(tinkBut.getPreferredSize());
+        sberBut.setPreferredSize(tinkBut.getPreferredSize());
 
         panel = new JPanel();
-        panel.add(alfa);
-        panel.add(tink);
-        panel.add(sber);
+        panel.add(alfaBut);
+        panel.add(tinkBut);
+        panel.add(sberBut);
 
         add(panel);
         add(exitButton, BorderLayout.SOUTH);
@@ -61,7 +61,7 @@ public class ChoseBankWindow extends Window {
         @Override
         public void actionPerformed(ActionEvent e) {
             new MainMenuWindow(this.str);
-            setVisible(false);
+            dispose();
         }
     }
 }

@@ -3,7 +3,7 @@ package Data.BankAccs;
 
 import Data.Client;
 import java.io.Serializable;
-import Exceptions.MyException;
+import Exceptions.ErrorMoneyException;
 
 public abstract class BankAccount implements Serializable {
     private double money;
@@ -17,33 +17,33 @@ public abstract class BankAccount implements Serializable {
         this.bank = client.getBank();
     }
 
-    public abstract void transactMoney(BankAccount account, double money) throws MyException;
+    public abstract void transactMoney(BankAccount account, double money) throws ErrorMoneyException;
 
-    public void topUpAcc(double money) throws MyException {
+    public void topUpAcc(double money) throws ErrorMoneyException {
         if (money > 0) {
             this.money += money;
         } else {
-            throw new MyException("Сумма должна быть больше 0.");
+            throw new ErrorMoneyException("Сумма должна быть больше 0.");
         }
     }
 
-    public void topDownAcc(double money) throws MyException {
+    public void topDownAcc(double money) throws ErrorMoneyException {
         if (money > 0) {
             if (this instanceof CreditAcc) {
                 if (this.money - money >= -10000) {
                     this.money -= money;
                 } else {
-                    throw new MyException("У вас недостаточно средств");
+                    throw new ErrorMoneyException("У вас недостаточно средств");
                 }
             } else {
                 if (this.money >= money) {
                     this.money -= money;
                 } else {
-                    throw new MyException("У вас недостаточно средств");
+                    throw new ErrorMoneyException("У вас недостаточно средств");
                 }
             }
         } else {
-            throw new MyException("Сумма должна быть больше 0.");
+            throw new ErrorMoneyException("Сумма должна быть больше 0.");
         }
     }
 
@@ -51,7 +51,7 @@ public abstract class BankAccount implements Serializable {
         this.title = title;
     }
 
-    public void renameTitle(String title) throws MyException {
+    public void renameTitle(String title) throws ErrorMoneyException {
         boolean coincid = false;
         for (BankAccount acc : owner.getAccs()) {
             if (acc.getTitle().equals(title) && acc != this) {
@@ -60,15 +60,15 @@ public abstract class BankAccount implements Serializable {
             }
         }
         if (coincid) {
-            throw new MyException("У вас уже есть счёт с таким названием");
+            throw new ErrorMoneyException("У вас уже есть счёт с таким названием");
         } else {
             this.title = title;
         }
     }
 
-    public void removeAccount() throws MyException {
+    public void removeAccount() throws ErrorMoneyException {
         if (this.getMoney() != 0) {
-            throw new MyException("Вы не можете закрыть счёт");
+            throw new ErrorMoneyException("Вы не можете закрыть счёт");
         }
         owner.getAccs().remove(this);
     }

@@ -1,6 +1,5 @@
 package DataTransmission;
 
-import Data.BankAccs.BankAccount;
 import Data.Client;
 import javax.swing.*;
 import java.io.*;

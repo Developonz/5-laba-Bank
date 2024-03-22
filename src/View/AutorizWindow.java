@@ -2,37 +2,42 @@ package View;
 
 import Data.Client;
 import Data.MyTableModel;
-import Data.Repository;
+import Data.ClientsRepository;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AutorizWindow extends Window {
+    private ClientsRepository repo;
+    private JTable table;
+    private JPanel panel;
+    private JScrollPane scrollPane;
+    private JLabel label;
+    private JButton exitButton;
+    private JButton confirmBut;
 
     public AutorizWindow(String bank) {
-        Repository repo = new Repository(bank);
-        JTable table = new JTable(new MyTableModel(repo));
-        JPanel panel = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(table);
-        JLabel label = new JLabel("Выберите аккаунт");
-        JButton exitButton = new JButton("Назад");
-        JButton confirm  = new JButton("Подтвердить");
-        panel.add(confirm);
+        repo = new ClientsRepository(bank);
+        table = new JTable(new MyTableModel(repo));
+        panel = new JPanel();
+        scrollPane = new JScrollPane(table);
+        label = new JLabel("Выберите аккаунт");
+        exitButton = new JButton("Назад");
+        confirmBut  = new JButton("Подтвердить");
+
+        panel.add(confirmBut);
         panel.add(exitButton);
-
-
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new MainMenuWindow(bank);
-                setVisible(false);
+                dispose();
             }
         });
 
-        confirm.addActionListener(new ActionListener() {
+        confirmBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = table.getSelectedRow();
@@ -41,7 +46,7 @@ public class AutorizWindow extends Window {
                     Client client = repo.getClient((int) id);
                     if (client != null) {
                         new ProfileWindow(client);
-                        setVisible(false);
+                        dispose();
                     } else {
                         JOptionPane.showMessageDialog(getContentPane(), "Ошибочка вышла", "Ошибка", JOptionPane.ERROR_MESSAGE);
                     }
@@ -52,7 +57,7 @@ public class AutorizWindow extends Window {
         });
 
 
-        exitButton.setPreferredSize(confirm.getPreferredSize());
+        exitButton.setPreferredSize(confirmBut.getPreferredSize());
 
         label.setHorizontalAlignment(SwingConstants.CENTER);
         add(label, BorderLayout.NORTH);
