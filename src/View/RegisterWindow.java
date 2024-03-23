@@ -9,11 +9,8 @@ import java.awt.event.ActionListener;
 
 
 public class RegisterWindow extends Window{
-    private JPanel mainPanel;
-    private JPanel firstCol;
-    private JPanel secondCol;
-    private JPanel firstRow;
-    private JPanel secondRow;
+    private JPanel panel;
+    private JPanel gridBagPan;
     private JLabel name;
     private JLabel surname;
     private JLabel typeAcc;
@@ -26,11 +23,7 @@ public class RegisterWindow extends Window{
     public RegisterWindow(String bank) {
         setTitle("Регистрация");
 
-        mainPanel = new JPanel();
-        firstCol = new JPanel();
-        secondCol = new JPanel();
-        firstRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 20));
-        secondRow = new JPanel();
+        panel = new JPanel();
         name = new JLabel("Имя:");
         surname = new JLabel("Фамилия:");
         typeAcc = new JLabel("Тип счёта:");
@@ -53,34 +46,46 @@ public class RegisterWindow extends Window{
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new MainMenuWindow(bank);
+                new EntryToBankWindow(bank);
                 dispose();
             }
         });
+        
+        gridBagPan = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 15, 10, 10);
 
-        firstCol.setLayout(new BoxLayout(firstCol, BoxLayout.Y_AXIS));
-        secondCol.setLayout(new BoxLayout(secondCol, BoxLayout.Y_AXIS));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gridBagPan.add(surname, gbc);
 
-        firstCol.add(surname);
-        firstCol.add(Box.createVerticalStrut(20));
-        firstCol.add(name);
-        firstCol.add(Box.createVerticalStrut(20));
-        firstCol.add(typeAcc);
-        secondCol.add(surnameField);
-        secondCol.add(Box.createVerticalStrut(20));
-        secondCol.add(nameField);
-        secondCol.add(Box.createVerticalStrut(20));
-        secondCol.add(typesAccs);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gridBagPan.add(name, gbc);
 
-        firstRow.add(firstCol);
-        firstRow.add(secondCol);
-        secondRow.add(register);
-        secondRow.add(exitButton);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gridBagPan.add(typeAcc, gbc);
 
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.add(firstRow);
-        mainPanel.add(secondRow);
-        add(mainPanel);
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+        gridBagPan.add(surnameField, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        gridBagPan.add(nameField, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        gridBagPan.add(typesAccs, gbc);
+        
+        panel.add(register);
+        panel.add(exitButton);
+
+        add(gridBagPan);
+        add(panel, BorderLayout.SOUTH);
 
         setLocation(630, 300);
         setSize(255, 235);

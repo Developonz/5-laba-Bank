@@ -25,7 +25,7 @@ public class ProfileWindow extends Window {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new MainMenuWindow(client.getBank());
+                new EntryToBankWindow(client.getBank());
             }
         });
 
@@ -55,8 +55,29 @@ public class ProfileWindow extends Window {
         add(panel, BorderLayout.CENTER);
         add(exitButton, BorderLayout.SOUTH);
         label.setHorizontalAlignment(SwingConstants.CENTER);
-        pack();
+        setSize(310, 120);
         setLocation(630, 300);
         setVisible(true);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

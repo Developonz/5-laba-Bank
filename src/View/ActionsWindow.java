@@ -108,7 +108,7 @@ public class ActionsWindow extends Window {
                 ClientsRepository repo = new ClientsRepository(acc.getBank());
                 if (acc.getOwner().getAccs().size() == 1) {
                     repo.removeClient(acc.getOwner());
-                    new MainMenuWindow(acc.getBank());
+                    new EntryToBankWindow(acc.getBank());
                     dispose();
                 } else {
                     Client client = acc.getOwner();

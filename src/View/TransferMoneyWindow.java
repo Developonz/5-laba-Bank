@@ -21,6 +21,7 @@ public class TransferMoneyWindow extends Window {
     private JButton confirm;
 
     public TransferMoneyWindow(BankAccount acc) {
+        setTitle("Перевод");
         repo = new ClientsRepository[] {new ClientsRepository("Alfa"), new ClientsRepository("Tinkoff"), new ClientsRepository("Sber")};
         table = new JTable(new MyTableModel(repo, acc));
         panel = new JPanel();

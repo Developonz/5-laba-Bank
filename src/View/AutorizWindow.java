@@ -19,6 +19,8 @@ public class AutorizWindow extends Window {
     private JButton confirmBut;
 
     public AutorizWindow(String bank) {
+        setTitle("Авторизация");
+
         repo = new ClientsRepository(bank);
         table = new JTable(new MyTableModel(repo));
         panel = new JPanel();
@@ -32,7 +34,7 @@ public class AutorizWindow extends Window {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new MainMenuWindow(bank);
+                new EntryToBankWindow(bank);
                 dispose();
             }
         });
